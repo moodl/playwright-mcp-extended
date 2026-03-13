@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Soft Paywall Test Page</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      margin: 0;
+      padding: 2rem;
+      overflow: hidden; /* scroll-locked by paywall */
+    }
+
+    .article-content {
+      max-width: 700px;
+      margin: 0 auto;
+      max-height: 300px;    /* truncated */
+      overflow: hidden;
+      filter: blur(3px);     /* blurred */
+      -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    }
+
+    .paywall-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.95);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .paywall-overlay .paywall-content {
+      text-align: center;
+      max-width: 400px;
+    }
+
+    .paywall-overlay h2 { margin-bottom: 16px; }
+    .paywall-overlay .subscribe-btn {
+      background: #d63384;
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="article-content" id="article">
+    <h1>Exclusive: Major Discovery in Quantum Computing</h1>
+    <p>Scientists at the research institute have made a groundbreaking discovery that could revolutionize quantum computing as we know it.</p>
+    <p>The team, led by Dr. Jane Smith, has developed a new method for maintaining quantum coherence at room temperature, eliminating the need for expensive cooling systems.</p>
+    <p id="hidden-paragraph">This paragraph should become visible after paywall bypass. It contains important details about the quantum coherence mechanism that operates through a novel lattice structure.</p>
+    <p>The implications for the industry are enormous, with potential applications in cryptography, drug discovery, and artificial intelligence.</p>
+    <p>Investors have already taken notice, with several venture capital firms expressing interest in the technology.</p>
+  </div>
+
+  <!-- Soft paywall overlay -->
+  <div class="paywall-overlay" id="paywall" data-testid="paywall">
+    <div class="paywall-content">
+      <h2>Subscribe to continue reading</h2>
+      <p>You've reached your free article limit this month.</p>
+      <button class="subscribe-btn">Subscribe Now — $9.99/mo</button>
+      <p style="margin-top: 12px; color: #666; font-size: 13px;">Already a subscriber? <a href="#">Sign in</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Observe if paywall gets removed
+    const observer = new MutationObserver(function() {
+      if (!document.getElementById('paywall')) {
+        document.body.setAttribute('data-paywall-removed', 'true');
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>

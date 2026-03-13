@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Metered Paywall Test</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; overflow: hidden; }
+
+    .article-body {
+      max-width: 700px;
+      max-height: 200px;
+      overflow: hidden;
+    }
+
+    /* Piano/Tinypass-style modal */
+    .tp-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 32px;
+      z-index: 100000;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      width: 450px;
+      text-align: center;
+    }
+    .tp-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 99999;
+    }
+    .tp-modal button {
+      padding: 10px 24px;
+      margin: 4px;
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+    }
+    .tp-modal .primary { background: #1a73e8; color: white; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="article-body" id="article">
+    <h1>Breaking News Story</h1>
+    <p>This is a metered article. The full content is below but obscured by a paywall.</p>
+    <p id="full-content">Full article content that should become visible when the paywall is bypassed. This contains critical information.</p>
+  </div>
+
+  <div class="tp-backdrop" id="tp-backdrop"></div>
+  <div class="tp-modal" id="tp-modal">
+    <h2>You've used 3 of 3 free articles</h2>
+    <p>Subscribe to get unlimited access to premium journalism.</p>
+    <button class="primary">Subscribe</button>
+    <p style="font-size: 12px; color: #999; margin-top: 16px;">Plans start at $4.99/month</p>
+  </div>
+
+  <script>
+    const observer = new MutationObserver(function() {
+      if (!document.getElementById('tp-modal') || !document.getElementById('tp-backdrop')) {
+        document.body.setAttribute('data-paywall-removed', 'true');
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+</body>
+</html>

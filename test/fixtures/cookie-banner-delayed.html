@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delayed Cookie Banner Test</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    #CybotCookiebotDialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 1px solid #ccc;
+      padding: 24px;
+      z-index: 99999;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      width: 400px;
+      display: none; /* starts hidden, shown after delay */
+    }
+    #CybotCookiebotDialogBodyButtonAccept {
+      background: #2b6cb0;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .cookiebot-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99998;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Delayed Cookie Banner Page</h1>
+  <p id="content">Content that should be accessible after banner dismissal.</p>
+
+  <div class="cookiebot-overlay" id="overlay"></div>
+  <div id="CybotCookiebotDialog">
+    <h3>We use cookies</h3>
+    <p>We use cookies and similar technologies to provide the best experience.</p>
+    <button id="CybotCookiebotDialogBodyButtonAccept">Allow All</button>
+  </div>
+
+  <script>
+    // Simulate a banner that appears 800ms after page load
+    setTimeout(function() {
+      document.getElementById('CybotCookiebotDialog').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }, 800);
+
+    document.getElementById('CybotCookiebotDialogBodyButtonAccept').addEventListener('click', function() {
+      document.getElementById('CybotCookiebotDialog').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+      document.body.setAttribute('data-cookie-dismissed', 'true');
+    });
+  </script>
+</body>
+</html>

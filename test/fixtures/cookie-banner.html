@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cookie Banner Test Page</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .article { max-width: 600px; }
+
+    /* OneTrust-style banner */
+    #onetrust-banner-sdk {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #333;
+      color: white;
+      padding: 20px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #onetrust-accept-btn-handler {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="article">
+    <h1>Test Article</h1>
+    <p id="content">This is the main content of the page that should be readable.</p>
+  </div>
+
+  <!-- OneTrust-style cookie banner -->
+  <div id="onetrust-banner-sdk" data-testid="cookie-banner">
+    <div>
+      <p>We use cookies to improve your experience. By continuing, you agree to our use of cookies.</p>
+    </div>
+    <div>
+      <button id="onetrust-accept-btn-handler">Accept All Cookies</button>
+    </div>
+  </div>
+
+  <script>
+    // Track if the banner was dismissed
+    document.getElementById('onetrust-accept-btn-handler').addEventListener('click', function() {
+      document.getElementById('onetrust-banner-sdk').style.display = 'none';
+      document.body.setAttribute('data-cookie-dismissed', 'true');
+    });
+  </script>
+</body>
+</html>

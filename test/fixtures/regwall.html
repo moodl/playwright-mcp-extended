@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Wall Test</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; overflow: hidden; }
+    .article { max-width: 700px; }
+
+    .regwall {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 32px;
+      z-index: 10000;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .regwall h2 { margin-top: 0; }
+    .regwall .cta-btn {
+      background: #e91e63;
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .regwall .dismiss-link {
+      display: block;
+      margin-top: 12px;
+      color: #888;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="article">
+    <h1>Tech Industry Update</h1>
+    <p id="content">Full article text that should be accessible after the registration wall is removed.</p>
+  </div>
+
+  <div class="regwall" id="regwall">
+    <h2>Create a free account to keep reading</h2>
+    <p>Join millions of readers. It only takes a minute.</p>
+    <button class="cta-btn">Sign Up Free</button>
+    <span class="dismiss-link">No thanks</span>
+  </div>
+
+  <script>
+    document.querySelector('.regwall .dismiss-link').addEventListener('click', function() {
+      document.getElementById('regwall').style.display = 'none';
+      document.body.style.overflow = 'auto';
+      document.body.setAttribute('data-regwall-dismissed', 'true');
+    });
+  </script>
+</body>
+</html>

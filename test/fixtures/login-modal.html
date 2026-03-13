@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Modal Test Page</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; overflow: hidden; }
+
+    .login-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 32px;
+      z-index: 10001;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      width: 380px;
+    }
+    .login-modal h2 { margin-top: 0; }
+    .login-modal input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .login-modal .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .login-modal .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #999;
+    }
+    .login-modal .skip-link {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      color: #666;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 10000;
+    }
+  </style>
+</head>
+<body>
+  <h1>News Article</h1>
+  <p id="content">This content should be accessible after dismissing the login modal.</p>
+
+  <div class="modal-backdrop" id="backdrop"></div>
+  <div class="login-modal" id="login-modal">
+    <button class="close-btn" aria-label="Close">&times;</button>
+    <h2>Sign in to continue</h2>
+    <p>Create a free account to read unlimited articles.</p>
+    <input type="email" placeholder="Email address">
+    <input type="password" placeholder="Password">
+    <button class="login-btn">Sign In</button>
+    <span class="skip-link">Maybe later</span>
+  </div>
+
+  <script>
+    function dismissModal() {
+      document.getElementById('login-modal').style.display = 'none';
+      document.getElementById('backdrop').style.display = 'none';
+      document.body.style.overflow = 'auto';
+      document.body.setAttribute('data-login-dismissed', 'true');
+    }
+
+    document.querySelector('.login-modal .close-btn').addEventListener('click', dismissModal);
+    document.querySelector('.login-modal .skip-link').addEventListener('click', dismissModal);
+  </script>
+</body>
+</html>

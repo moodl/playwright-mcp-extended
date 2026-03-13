@@ -148,7 +148,7 @@ function buildLoginBypassScript() {
 
           // Try "skip" / "not now" / "later" links/buttons
           const patterns = skipPatterns();
-          const candidates = modal.querySelectorAll('button, a, [role="button"]');
+          const candidates = modal.querySelectorAll('button, a, span, div, p, [role="button"], [role="link"]');
           for (const el of candidates) {
             const text = (el.textContent || '').trim();
             if (text && patterns.some(p => p.test(text)) && isVisible(el)) {
@@ -175,25 +175,29 @@ function buildLoginBypassScript() {
       } catch {}
     }
 
-    // Remove backdrop/overlay elements
-    const backdropSelectors = [
-      '.modal-backdrop',
-      '.overlay',
-      '[class*="backdrop" i]',
-      '[class*="modal-overlay" i]',
-    ];
-    for (const sel of backdropSelectors) {
-      try {
-        for (const el of document.querySelectorAll(sel)) {
-          const style = getComputedStyle(el);
-          if ((style.position === 'fixed' || style.position === 'absolute') && style.zIndex > 100) {
-            el.remove();
+    // Only remove backdrops if no button-based dismissal succeeded
+    // (button clicks let the page's own JS handle backdrop cleanup)
+    if (dismissed === 0) {
+      const backdropSelectors = [
+        '.modal-backdrop',
+        '.overlay',
+        '[class*="backdrop" i]',
+        '[class*="modal-overlay" i]',
+      ];
+      for (const sel of backdropSelectors) {
+        try {
+          for (const el of document.querySelectorAll(sel)) {
+            const style = getComputedStyle(el);
+            if ((style.position === 'fixed' || style.position === 'absolute') && parseInt(style.zIndex) > 100) {
+              el.remove();
+              dismissed++;
+            }
           }
-        }
-      } catch {}
+        } catch {}
+      }
     }
 
-    // Unlock scroll
+    // Unlock scroll after any dismissal
     if (dismissed > 0) {
       for (const el of [document.documentElement, document.body]) {
         if (!el) continue;

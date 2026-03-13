@@ -21,8 +21,7 @@ const PAYWALL_OVERLAY_SELECTORS = [
   '[id*="pay-wall" i]',
   '[class*="subscribe-wall" i]',
   '[class*="metered" i]',
-  '[class*="regwall" i]',
-  '[class*="reg-wall" i]',
+  // regwall handled by login-bypass middleware (has dismiss buttons)
   '[class*="piano-" i]',
   '[id*="piano-" i]',
   // Specific publishers
@@ -35,13 +34,12 @@ const PAYWALL_OVERLAY_SELECTORS = [
   '#tp-container',
   '.pn-template',
   '.fancybox-overlay',                   // Various
-  '.modal-backdrop',
   '.overlay-paywall',
   '.subscriber-only-overlay',
   '.premium-overlay',
   '[data-testid="paywall"]',
   '[data-testid="meter-modal"]',
-  '[data-testid="regwall"]',
+  // regwall testid handled by login-bypass middleware
   // Medium
   '[class*="meteredContent"]',
   // Washington Post
@@ -146,11 +144,18 @@ function buildPaywallBypassScript() {
 
   // 4. Remove remaining high-z-index fixed overlays
   function removeGenericOverlays() {
+    // Skip elements that look like login/auth modals or their backdrops
+    const loginPatterns = /login|signin|sign-in|signup|sign-up|auth|modal-backdrop|credential|regwall|reg-wall|registration/i;
+
     const allFixed = document.querySelectorAll('*');
     for (const el of allFixed) {
       try {
         const style = getComputedStyle(el);
         if (style.position === 'fixed' && parseInt(style.zIndex) > 999) {
+          // Skip login/auth-related elements (handled by login-bypass middleware)
+          const classAndId = (el.className || '') + ' ' + (el.id || '');
+          if (loginPatterns.test(classAndId)) continue;
+
           // Check if it looks like an overlay (covers significant viewport area)
           const rect = el.getBoundingClientRect();
           const viewportArea = window.innerWidth * window.innerHeight;
