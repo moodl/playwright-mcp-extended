@@ -5,6 +5,7 @@
 import { dismissCookieConsent, getCookieConsentInitScript } from './cookie-consent.js';
 import { bypassPaywall, getPaywallBypassInitScript } from './paywall-bypass.js';
 import { bypassLoginScreens, getLoginBypassInitScript } from './login-bypass.js';
+import { getUnpaywalledRedirectInitScript, getUnpaywalledUrl } from './unpaywall-redirect.js';
 
 /**
  * Returns combined init script for injection into every page via addInitScript.
@@ -13,6 +14,10 @@ import { bypassLoginScreens, getLoginBypassInitScript } from './login-bypass.js'
 export function getCombinedInitScript(options = {}) {
   const scripts = [];
 
+  // Unpaywall redirect runs FIRST (before other middleware) since it navigates away
+  if (options.unpaywallRedirect !== false) {
+    scripts.push(getUnpaywalledRedirectInitScript(options.unpaywallRedirectOptions));
+  }
   if (options.cookieConsent !== false) {
     scripts.push(getCookieConsentInitScript());
   }
@@ -49,4 +54,4 @@ export async function runAllMiddleware(page, options = {}) {
   return results;
 }
 
-export { dismissCookieConsent, bypassPaywall, bypassLoginScreens };
+export { dismissCookieConsent, bypassPaywall, bypassLoginScreens, getUnpaywalledUrl };

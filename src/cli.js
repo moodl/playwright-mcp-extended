@@ -7,9 +7,11 @@
  * for cookie consent, paywall bypass, and login screen handling.
  *
  * All original @playwright/mcp CLI options are supported, plus:
- *   --no-cookie-consent     Disable cookie consent auto-dismiss
- *   --no-paywall-bypass     Disable paywall bypass
- *   --no-login-bypass       Disable login/signup modal bypass
+ *   --no-cookie-consent       Disable cookie consent auto-dismiss
+ *   --no-paywall-bypass       Disable paywall bypass
+ *   --no-login-bypass         Disable login/signup modal bypass
+ *   --no-unpaywall-redirect   Disable auto-redirect to unpaywalled services
+ *   --redirect-service <svc>  Preferred redirect service: freedium, archive, 12ft
  */
 
 import { writeFileSync, mkdirSync, rmSync } from 'node:fs';
@@ -25,10 +27,13 @@ const middlewareOptions = {
   cookieConsent: true,
   paywallBypass: true,
   loginBypass: true,
+  unpaywallRedirect: true,
+  unpaywallRedirectOptions: {},
 };
 
 const filteredArgs = [];
-for (const arg of args) {
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
   switch (arg) {
     case '--no-cookie-consent':
       middlewareOptions.cookieConsent = false;
@@ -38,6 +43,12 @@ for (const arg of args) {
       break;
     case '--no-login-bypass':
       middlewareOptions.loginBypass = false;
+      break;
+    case '--no-unpaywall-redirect':
+      middlewareOptions.unpaywallRedirect = false;
+      break;
+    case '--redirect-service':
+      middlewareOptions.unpaywallRedirectOptions.preferredService = args[++i];
       break;
     default:
       filteredArgs.push(arg);
