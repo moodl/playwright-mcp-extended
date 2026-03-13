@@ -1,0 +1,22 @@
+{
+  "name": "@nicdev/playwright-mcp-extended",
+  "version": "0.1.0",
+  "description": "Extended Playwright MCP server with automatic cookie consent, paywall bypass, and login screen handling",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "playwright-mcp-extended": "src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "test": "node --test src/**/*.test.js"
+  },
+  "dependencies": {
+    "@playwright/mcp": "^0.0.68",
+    "playwright": "^1.52.0"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
