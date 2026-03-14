@@ -1,0 +1,6 @@
+{
+  "playwright-extended": {
+    "command": "node",
+    "args": ["src/cli.js"]
+  }
+}

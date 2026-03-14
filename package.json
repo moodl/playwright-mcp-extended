@@ -1,0 +1,26 @@
+{
+  "name": "@nicdev/playwright-mcp-extended",
+  "version": "0.1.0",
+  "description": "Extended Playwright MCP server with automatic cookie consent handling and visual page reading",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "playwright-mcp-extended": "src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "test": "node --test test/integration.test.js",
+    "test:real": "node --test test/real-world.test.js",
+    "test:all": "node --test test/integration.test.js test/real-world.test.js",
+    "test:docker": "docker build -t playwright-mcp-extended-test . && docker run --rm playwright-mcp-extended-test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "@playwright/mcp": "^0.0.68",
+    "playwright": "^1.52.0"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

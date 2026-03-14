@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="sp-message-open">
+<head>
+  <meta charset="UTF-8">
+  <title>Iframe CMP Test Page</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; overflow: hidden; }
+    .article { max-width: 600px; }
+
+    /* SourcePoint-style iframe container */
+    .sp-message-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 50000;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sp-message-container iframe {
+      width: 80%;
+      height: 70%;
+      border: none;
+      background: white;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="article">
+    <h1>Test Article</h1>
+    <p id="content">This is the main content that should be readable after CMP removal.</p>
+  </div>
+
+  <!-- SourcePoint-style iframe CMP (cross-origin in production, same-origin here for testing) -->
+  <div id="sp_message_container_12345" class="sp-message-container">
+    <iframe id="sp_message_iframe_12345"
+            src="about:blank"
+            title="SP Consent Message">
+    </iframe>
+  </div>
+
+  <!-- Native cookie bar underneath (like BBC's dual-banner pattern) -->
+  <div id="cookiePrompt" style="position:fixed;bottom:0;left:0;right:0;background:#f5f5f5;padding:12px;z-index:1000;display:flex;align-items:center;justify-content:space-between;">
+    <span>We use cookies for analytics.</span>
+    <a href="#" id="cookiePrompt-accept" style="color:#c00;font-weight:bold;">Yes, I agree</a>
+  </div>
+
+  <script>
+    document.getElementById('cookiePrompt-accept')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('cookiePrompt').style.display = 'none';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic CMP Injection Test Page</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .article { max-width: 600px; }
+    .consent-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .consent-dialog {
+      background: white;
+      padding: 32px;
+      border-radius: 12px;
+      max-width: 500px;
+      text-align: center;
+    }
+    .consent-dialog button {
+      margin: 8px;
+      padding: 10px 24px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .consent-dialog button.primary {
+      background: #1a73e8;
+      color: white;
+      border-color: #1a73e8;
+    }
+  </style>
+</head>
+<body>
+  <div class="article">
+    <h1>Test Article</h1>
+    <p id="content">This is the main content that should be readable after banner removal.</p>
+  </div>
+
+  <script>
+    // Simulate a CMP that injects itself after a delay (common pattern)
+    setTimeout(() => {
+      const overlay = document.createElement('div');
+      overlay.className = 'consent-overlay';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-label', 'Cookie consent');
+      overlay.innerHTML = `
+        <div class="consent-dialog">
+          <h2>We value your privacy</h2>
+          <p>We and our partners use cookies to provide you with the best experience.</p>
+          <div>
+            <button class="secondary">Manage Settings</button>
+            <button class="primary" id="dynamic-accept">Accept All</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      document.body.style.overflow = 'hidden';
+
+      document.getElementById('dynamic-accept').addEventListener('click', () => {
+        overlay.remove();
+        document.body.style.overflow = '';
+        document.body.setAttribute('data-cookie-dismissed', 'true');
+      });
+    }, 800);
+  </script>
+</body>
+</html>

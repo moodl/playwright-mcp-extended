@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quantcast-Style CMP Test Page</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; overflow: hidden; }
+    .article { max-width: 600px; }
+
+    #qc-cmp2-container {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99999;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qc-cmp2-dialog {
+      background: white;
+      padding: 28px;
+      border-radius: 8px;
+      max-width: 480px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    .qc-cmp2-dialog h2 { margin-top: 0; }
+    .qc-cmp2-summary-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .qc-cmp2-summary-buttons button {
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      flex: 1;
+    }
+    button[mode="secondary"] {
+      background: white;
+      border: 1px solid #666;
+      color: #333;
+    }
+    button[mode="primary"] {
+      background: #0066cc;
+      border: 1px solid #0066cc;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="article">
+    <h1>Test Article</h1>
+    <p id="content">Content should be visible after Quantcast-style CMP is dismissed.</p>
+  </div>
+
+  <div id="qc-cmp2-container">
+    <div class="qc-cmp2-dialog">
+      <h2>We value your privacy</h2>
+      <p>We and our 847 partners store and access information on a device for personalised ads and content.</p>
+      <div class="qc-cmp2-summary-buttons">
+        <button mode="secondary">Manage Options</button>
+        <button mode="primary" id="qc-accept">Agree</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('qc-accept').addEventListener('click', () => {
+      document.getElementById('qc-cmp2-container').style.display = 'none';
+      document.body.style.overflow = '';
+      document.body.setAttribute('data-cookie-dismissed', 'true');
+    });
+  </script>
+</body>
+</html>

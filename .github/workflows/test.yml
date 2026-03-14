@@ -1,0 +1,67 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-fixtures:
+    name: Fixture Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run fixture integration tests
+        run: node --test test/integration.test.js
+
+  test-real-world:
+    name: Real-world Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true  # websites can change, don't block CI
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run real-world tests
+        run: node --test test/real-world.test.js
+
+  test-docker:
+    name: Docker Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t playwright-mcp-extended-test .
+
+      - name: Run tests in Docker
+        run: docker run --rm playwright-mcp-extended-test

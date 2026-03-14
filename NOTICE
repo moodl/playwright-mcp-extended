@@ -1,0 +1,25 @@
+NOTICE
+
+This project builds upon and extends the following open source software:
+
+  Playwright MCP
+  Copyright (c) Microsoft Corporation
+  Licensed under the Apache License, Version 2.0
+  https://github.com/microsoft/playwright-mcp
+
+  Playwright
+  Copyright (c) Microsoft Corporation
+  Licensed under the Apache License, Version 2.0
+  https://github.com/microsoft/playwright
+
+This project is NOT affiliated with, endorsed by, or sponsored by Microsoft
+Corporation or the Playwright team. "Playwright" is a trademark of Microsoft
+Corporation.
+
+The original Playwright MCP source code is used as a runtime dependency
+(via npm) under the terms of the Apache License 2.0. No original source code
+from Playwright or Playwright MCP has been copied or modified in this
+repository. This project provides additional middleware that wraps the
+original package.
+
+A copy of the Apache License 2.0 is included in the file LICENSES/Apache-2.0.txt.

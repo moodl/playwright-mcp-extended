@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Generic Cookie Banner Test</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+
+    /* Generic cookie consent popup using class names */
+    .cookie-consent {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 16px 24px;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+    }
+    .cookie-consent button {
+      padding: 8px 20px;
+      border: none;
+      cursor: pointer;
+      margin-left: 8px;
+      font-size: 14px;
+    }
+    .cookie-consent .accept-btn {
+      background: #0f62fe;
+      color: white;
+    }
+    .cookie-consent .reject-btn {
+      background: transparent;
+      color: #aaa;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Generic Cookie Banner Page</h1>
+  <p id="content">Article content goes here.</p>
+
+  <!-- Generic cookie consent using text-based matching -->
+  <div class="cookie-consent" role="dialog" aria-label="Cookie consent">
+    <p>This site uses cookies for analytics and personalization.</p>
+    <div>
+      <button class="reject-btn">Reject</button>
+      <button class="accept-btn">Accept All</button>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector('.cookie-consent .accept-btn').addEventListener('click', function() {
+      document.querySelector('.cookie-consent').style.display = 'none';
+      document.body.setAttribute('data-cookie-dismissed', 'true');
+    });
+    document.querySelector('.cookie-consent .reject-btn').addEventListener('click', function() {
+      document.querySelector('.cookie-consent').style.display = 'none';
+      document.body.setAttribute('data-cookie-rejected', 'true');
+    });
+  </script>
+</body>
+</html>
